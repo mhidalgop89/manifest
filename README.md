@@ -24,8 +24,7 @@ Este repositorio contiene un entorno Docker Compose para ejecutar:
 Para levantar todos los servicios, simplemente ejecuta:
 
 ```bash
-docker compose up
-docker ps
+docker compose up -d
 
 manifest/
 │
