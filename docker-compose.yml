@@ -1,0 +1,58 @@
+version: "3.9"
+
+services:
+  mysql-db:
+    image: mysql:8.0.41
+    container_name: mysql_db
+    ports:
+      - "3306:3306"
+    environment:
+      MYSQL_ROOT_PASSWORD: root
+      MYSQL_DATABASE: db_app
+      #MYSQL_USER: root
+      #MYSQL_PASSWORD: 12345
+    volumes:
+      - ./BaseDatos.sql:/docker-entrypoint-initdb.d/BaseDatos.sql
+    networks:
+      - net
+#    restart: unless-stopped
+    healthcheck:
+      test: ["CMD", "mysqladmin", "ping", "-h", "localhost", "-uroot", "-proot"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+      start_period: 20s
+
+  cuentas-svc:
+    build:
+      context: ./cuentas
+      dockerfile: Dockerfile
+    container_name: cuentas-svc
+    ports:
+      - "8081:8081"
+    environment:
+      - server.app.port=8080
+    depends_on:
+      mysql-db:
+        condition: service_healthy
+    networks:
+      - net
+#    restart: unless-stopped
+
+  clients-svc:
+    build:
+      context: ./clients
+      dockerfile: Dockerfile
+    container_name: clients-svc
+    ports:
+      - "8080:8080"
+    environment:
+      - server.app.port=8081
+    depends_on:
+      mysql-db:
+        condition: service_healthy
+    networks:
+      - net
+networks:
+  net:      
+#    restart: unless-stopped
