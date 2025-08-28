@@ -27,10 +27,11 @@ Para levantar todos los servicios, simplemente ejecuta:
 docker compose up
 docker ps
 
-mi-repo/
+manifest/
 │
 ├─ docker-compose.yml
-├─ clientes/         # Código del microservicio Clientes
-├─ cuentas/          # Código del microservicio Cuentas
-├─ db/               # Scripts para la base de datos MySQL
+├─ clientes/         			# Código del microservicio Clientes
+├─ cuentas/          			# Código del microservicio Cuentas
+├─ BaseDatos.sql     			# Scripts para la base de datos MySQL
+├─ test.postman_collection     	# Curls para comprobar la ejecucion
 └─ README.md
